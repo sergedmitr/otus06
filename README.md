@@ -22,3 +22,4 @@ helm install postgresql-test oci://registry-1.docker.io/bitnamicharts/postgresql
 4. Уcтановил auth-work в неймспейс granite
 5. Установил приложение БД my-wsdb-service с помощью Helm в неймспейс zipper.
 6. Сделал настройки Istio для маршрутизации, аутентификации и авторизации.
+7. Сделал коллекцию postman для проверки предложенного сценария (Otus-Auth-Check.json)

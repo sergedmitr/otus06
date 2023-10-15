@@ -1,0 +1,564 @@
+{
+	"info": {
+		"_postman_id": "16106ffa-b772-4125-80cf-e8fad600629d",
+		"name": "Otus-Auth-Check",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "3042142"
+	},
+	"item": [
+		{
+			"name": "Create user 1",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Check response code\", function() {\r",
+							"    pm.response.to.have.status(200);\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"login\": \"{{username1}}\",\r\n    \"password\": \"{{pwd1}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}:8090/work/create-user",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"port": "8090",
+					"path": [
+						"work",
+						"create-user"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Try create User 1 Card",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Check response code\", function() {\r",
+							"    pm.response.to.have.status(401);\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{ \r\n    \"username\": \"{{username1}}\",\r\n    \"firstName\": \"{{$randomFirstName}}\",\r\n    \"lastName\": \"{{$randomLastName}}\",\r\n    \"email\": \"{{$randomEmail}}\",\r\n    \"phone\": \"{{$randomPhoneNumber}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}:8090/users/card",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"port": "8090",
+					"path": [
+						"users",
+						"card"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Try get User 1 Card",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Check response code\", function() {\r",
+							"    pm.response.to.have.status(401);\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}:8090/users/card/{{username1}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"port": "8090",
+					"path": [
+						"users",
+						"card",
+						"{{username1}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login User 1",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Check response code\", function() {\r",
+							"    pm.response.to.have.status(200);\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"login\": \"{{username1}}\",\r\n    \"password\": \"{{pwd1}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}:8090/work/login",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"port": "8090",
+					"path": [
+						"work",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create User 1 Card",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Check response code\", function() {\r",
+							"    pm.response.to.have.status(201);\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{ \r\n    \"username\": \"{{username1}}\",\r\n    \"firstName\": \"{{$randomFirstName}}\",\r\n    \"lastName\": \"{{$randomLastName}}\",\r\n    \"email\": \"original.first@mail.ru\",\r\n    \"phone\": \"{{$randomPhoneNumber}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}:8090/users/card",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"port": "8090",
+					"path": [
+						"users",
+						"card"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Read User 1 Card",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Check response code\", function() {\r",
+							"    pm.response.to.have.status(200);\r",
+							"})\r",
+							"pm.test(\"Check original email\", function() {\r",
+							"    const responseJson = pm.response.json();\r",
+							"    pm.expect(responseJson.email).to.eql(\"original.first@mail.ru\")\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}:8090/users/card/{{username1}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"port": "8090",
+					"path": [
+						"users",
+						"card",
+						"{{username1}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update User 1 Card",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Check response code\", function() {\r",
+							"    pm.response.to.have.status(200);\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{ \r\n    \"lastName\": \"Dursley\",\r\n    \"email\": \"changed.first@mail.ru\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}:8090/users/card/{{username1}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"port": "8090",
+					"path": [
+						"users",
+						"card",
+						"{{username1}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Reread User 1 Card",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Check response code\", function() {\r",
+							"    pm.response.to.have.status(200);\r",
+							"})\r",
+							"pm.test(\"Check original email\", function() {\r",
+							"    const responseJson = pm.response.json();\r",
+							"    pm.expect(responseJson.email).to.eql(\"changed.first@mail.ru\")\r",
+							"    pm.expect(responseJson.lastName).to.eql(\"Dursley\")\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}:8090/users/card/{{username1}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"port": "8090",
+					"path": [
+						"users",
+						"card",
+						"{{username1}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Logout Current User",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Check response code\", function() {\r",
+							"    pm.response.to.have.status(200);\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Body result\", function () {\r",
+							"  pm.response.to.have.body('\"OK\"');\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}:8090/work/logout",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"port": "8090",
+					"path": [
+						"work",
+						"logout"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create User 2",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Check response code\", function() {\r",
+							"    pm.response.to.have.status(200);\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"login\": \"{{username2}}\",\r\n    \"password\": \"{{pwd2}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}:8090/work/create-user",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"port": "8090",
+					"path": [
+						"work",
+						"create-user"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login User 2",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Check response code\", function() {\r",
+							"    pm.response.to.have.status(200);\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"login\": \"{{username2}}\",\r\n    \"password\": \"{{pwd2}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}:8090/work/login",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"port": "8090",
+					"path": [
+						"work",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Try get User 1 Card by User 2",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Check response code\", function() {\r",
+							"    pm.response.to.have.status(403);\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}:8090/users/card/{{username1}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"port": "8090",
+					"path": [
+						"users",
+						"card",
+						"{{username1}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Try update User 1 Card by User 2",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Check response code\", function() {\r",
+							"    pm.response.to.have.status(403);\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{ \r\n    \"lastName\": \"Dambldor\",\r\n    \"email\": \"second.changed.first@mail.ru\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}:8090/users/card/{{username1}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"port": "8090",
+					"path": [
+						"users",
+						"card",
+						"{{username1}}"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "username1",
+			"value": "carl",
+			"type": "string"
+		},
+		{
+			"key": "username2",
+			"value": "clara",
+			"type": "string"
+		},
+		{
+			"key": "pwd1",
+			"value": "11",
+			"type": "string"
+		},
+		{
+			"key": "pwd2",
+			"value": "12",
+			"type": "string"
+		},
+		{
+			"key": "baseUrl",
+			"value": "arch.homework",
+			"type": "string"
+		}
+	]
+}
