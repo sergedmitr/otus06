@@ -1,0 +1,55 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+hide footbox
+
+actor User
+participant apig [
+    =Api gateway
+    ----
+    ""Istio""
+]
+
+participant auths [
+    =Auth service
+    ----
+    ""auth-work""
+]
+
+participant svc [
+    =Service
+    ----
+    ""my-wsdb-service""
+]
+
+Database "User Cards" as pg
+
+User -> apig : Запрос
+note right: Cookie: session
+
+apig -> auths : Запрос авторизации /auth/**
+activate apig
+
+alt #LightBlue "Пользователь авторизован"
+
+auths -> apig : Авторизован - 200
+apig -> svc : Запрос с заголовками из авторизации
+note left: x-username: carl
+svc -> pg: Запрос данных
+pg -> svc: Данные
+svc -> User : Ответ Json с данными
+
+else #Pink "Пользователь не авторизован"
+
+auths -> apig : Не авторизован - 403
+apig -> User : Не авторизован - 403
+
+end
+
+deactivate apig
+
+User -> apig : Запрос аутентификации /work/login
+apig -> auths: Пропускает запрос /work/login
+auths -> User: Успех - Возврат
+note left: Cookie: session
+
+@enduml
