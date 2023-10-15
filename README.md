@@ -17,29 +17,47 @@ Backend for frontends. Apigateway
 ## Процесс выполнения:
 1. Установил Istio в неймспейс istio-system.
 Установить оператор, разворачивающий Istio:
+```shell
 istioctl operator init --watchedNamespaces istio-system --operatorNamespace istio-operator
+```
 Развернуть Istio c помощью оператора:
+```shell
 kubectl apply -f istio-config/istio.yaml
+```
 Проверить состояние Istio:
+```shell
 kubectl get all -n istio-system -l istio.io/rev=default
+```
 Настроить Gateway:
+```shell
 kubectl apply -f istio-config/routes.yaml
-
+```
 2. Создал неймспейс zipper
+```shell
 kubectl apply -f ns-zipper/01_namespace_zipper.yaml
+```
 2. Установил PostgreSql в неймспейс zipper
+```shell
 helm install postgresql-test oci://registry-1.docker.io/bitnamicharts/postgresql --set auth.database=mydb,auth.postgresPassword=secretpassword -n zipper
+```
 3. Написал свой сервис авторизации и аутентификации на Java (auth-work)
 4. Уcтановил auth-work в неймспейс granite (Создается неймспейс, деполоймент и сервис-нодепорт)
+```shell
 kubectl apply -f app-deploy/.
+```
 5. Установил приложение БД my-wsdb-service с помощью Helm в неймспейс zipper.
+```shell
 helm install wsdb-local myapp/. -n zipper
-
+```
 6. Сделал настройки Istio для аутентификации и авторизации.
+```shell
 kubectl apply -f istio-config/auth.yaml
+```
+```shell
 kubectl apply -f istio-config/wsdb-auth.yaml
-
+```
 7. Сделал коллекцию postman для проверки предложенного сценария (Otus-Auth-Check.json) При повторном запуске сценария будет ошибка при создании карточки клиента 1, потому что карточка в БД уже будет.
+```shell
 newman run Otus-Auth-Check.json --verbose
-
+```
 Всё.
