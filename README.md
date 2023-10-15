@@ -58,6 +58,10 @@ kubectl apply -f istio-config/auth.yaml
 kubectl apply -f istio-config/wsdb-auth.yaml
 ```
 7. Сделал коллекцию postman для проверки предложенного сценария (Otus-Auth-Check.json) При повторном запуске сценария будет ошибка при создании карточки клиента 1, потому что карточка в БД уже будет.
+Для тестирования сделал проброс порта:
+```shell
+kubectl port-forward --namespace istio-system svc/istio-ingressgateway 8090:80 --address 127.0.0.1,192.168.1.191
+```
 ```shell
 newman run Otus-Auth-Check.json --verbose
 ```
