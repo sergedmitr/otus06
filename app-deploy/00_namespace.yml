@@ -1,0 +1,7 @@
+kind: Namespace
+apiVersion: v1
+metadata:
+    name: granite
+    labels:
+        name: granite
+        istio-injection: enabled

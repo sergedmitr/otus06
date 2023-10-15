@@ -1,0 +1,48 @@
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: ingress
+  namespace: default
+spec:
+  selector:
+    istio: ingressgateway
+  servers:
+    - port:
+        number: 8080
+        name: http
+        protocol: HTTP
+      hosts:
+        - "*"
+
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: auth-service
+  namespace: default
+spec:
+  hosts:
+    - "*"
+  gateways:
+    - ingress
+  http: # Обратите внимание на порядок маршрутов, маршрут / идет последним, иначе все запросы будут идти именно в него
+    - name: "auth-whitelisted" # Указываем имя для применения EnvoyFilter
+      match:
+        - uri:
+            prefix: /work/
+      rewrite:
+        uri: /
+      route:
+        - destination:
+            port:
+              number: 8082
+            host: auth-work.granite.svc.cluster.local
+    - match:
+        - uri:
+            prefix: / # Остальные запросы направляем к wsdb
+      route:
+        - destination:
+            port:
+              number: 8082
+            host: my-wsdb-service.zipper.svc.cluster.local

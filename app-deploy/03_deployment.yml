@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: auth-work-deployment
+    namespace: granite
+spec:
+    replicas: 1
+    selector:
+        matchLabels:
+            app: auth-work
+    strategy:
+        type: Recreate
+    template:
+        metadata:
+            labels:
+                app: auth-work
+        spec:
+            containers:
+              - name: auth-work
+                image: sergedmitr/ws-demo
+                ports:
+                  - name: web
+                    containerPort: 8000

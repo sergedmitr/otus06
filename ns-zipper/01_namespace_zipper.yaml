@@ -1,0 +1,7 @@
+kind: Namespace
+apiVersion: v1
+metadata:
+    name: zipper
+    labels:
+        name: zipper
+        istio-injection: enabled
